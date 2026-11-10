@@ -114,6 +114,38 @@ switch ($page) {
         session_destroy(); // Détruit toutes les données de session
         header('Location: index.php?page=accueil'); // Redirection vers l'accueil
         exit;
+    
+    // ==========================================
+    // ⚠️ ROUTE TEMPORAIRE (À SUPPRIMER ENSUITE)
+    // ==========================================
+    case 'create_first_admin':
+        require_once 'Models/Database.php';
+        require_once 'Models/UserModel.php';
+        require_once 'Controllers/AuthController.php';
+
+        $db = new Database();
+        $pdo = $db->getConnection();
+        $userModel = new UserModel($pdo);
+        $authController = new AuthController($userModel);
+
+        // On simule les données d'un formulaire (15 caractères minimum !)
+        $fakePostData = [
+            'nom' => 'Fanny',
+            'email' => 'fanny@votresite.com', 
+            'mdp' => 'FannyAdminSuperSecurise2024!' 
+        ];
+
+        // On déclenche l'inscription
+        $message = $authController->register($fakePostData);
+        
+        // On affiche le résultat et on stoppe la page
+        echo "<h1>Résultat de la création :</h1>";
+        echo "<p>" . $message . "</p>";
+        exit;
+    // ==========================================
+    // ROUTE TEMPORAIRE (À SUPPRIMER ENSUITE)
+    // ==========================================
+
 
     // ----------------------------------
     // GESTION DES ERREURS
