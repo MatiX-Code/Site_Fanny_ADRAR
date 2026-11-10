@@ -94,27 +94,37 @@ switch ($page) {
             break;
 
     case 'admin_events':
-        // ==========================================
-        // 🔒 PÉAGE DE SÉCURITÉ 
-        // ==========================================
-        // On vérifie si la variable de session existe ET si elle vaut true
-        if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
-            // L'utilisateur n'est pas connecté : on le renvoie vers la page de login
-            header('Location: index.php?page=login');
-            // SÉCURITÉ CRITIQUE : On bloque l'exécution du reste du code
-            exit; 
-        }
+            // ==========================================
+            // 🔒 PÉAGE DE SÉCURITÉ (Votre excellent code !)
+            // ==========================================
+            if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
+                header('Location: index.php?page=login');
+                exit;
+            }
 
-        // Si la vérification passe, on charge la page privée
-        require_once 'Views/admin_events_f-e.php';
-        break;
+            // ==========================================
+            // ⚙️ APPEL DU CONTRÔLEUR ET GESTION DES DONNÉES
+            // ==========================================
+            // 1. On charge les outils nécessaires
+            require_once 'Models/Database.php';
+            require_once 'Models/EventModel.php';
+            require_once 'Controllers/EventController.php';
 
-    case 'logout':
-        // 🚪 SYSTÈME DE DÉCONNEXION
-        session_destroy(); // Détruit toutes les données de session
-        header('Location: index.php?page=accueil'); // Redirection vers l'accueil
-        exit;
-        
+            $db = new Database();
+            $pdo = $db->getConnection();
+            $eventModel = new EventModel($pdo);
+            $eventController = new EventController($eventModel);
+
+            // 2. Écoute du formulaire : Si l'admin a cliqué sur "Ajouter"
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                // On envoie toutes les données saisies au Contrôleur
+                $message_event = $eventController->addEvent($_POST);
+            }
+
+            // 3. On charge la page HTML (qui affichera le $message_event)
+            require_once 'Views/admin_events_f-e.php';
+            break;
+
     // ==========================================
     // 📡 ROUTE API POUR LE CALENDRIER JS
     // ==========================================

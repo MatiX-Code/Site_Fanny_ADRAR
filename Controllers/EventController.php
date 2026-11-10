@@ -82,7 +82,7 @@ class EventController {
 
         if (isset($_FILES['affiche_event']) && $_FILES['affiche_event']['error'] === UPLOAD_ERR_OK) {
             // ATTENTION : Créez bien le dossier "assets/uploads/" à la racine de votre projet !
-            $dossier_cible = 'assets/uploads/'; 
+            $dossier_cible = 'public/assets/uploads/'; 
             $nom_fichier = $_FILES['affiche_event']['name'];
             $chemin_temporaire = $_FILES['affiche_event']['tmp_name'];
             $taille_fichier = $_FILES['affiche_event']['size'];
