@@ -1,95 +1,129 @@
-// --------- Menu Burger ------------------------
+// ============================================================================
+// 🍔 MENU BURGER (Navigation Mobile)
+// ============================================================================
 
+// Récupération des éléments du DOM
 let burger = document.querySelector("#burger");
 let nav = document.querySelector("#nav-links");
 
-burger.addEventListener("click",() =>{
+// Écouteur d'événement sur le clic du bouton burger
+burger.addEventListener("click", () => {
+    // La méthode toggle() ajoute la classe "open" si elle n'y est pas, 
+    // ou la retire si elle y est déjà. Très pratique pour un menu !
     nav.classList.toggle("open");
-})
+});
 
-//--------- Agenda----------------------------
+
+// ============================================================================
+// 📅 AGENDA (FullCalendar & Fenêtre Modale)
+// ============================================================================
+
+// On attend que tout le HTML soit chargé avant de lancer le script du calendrier
 document.addEventListener('DOMContentLoaded', function() {
+    
     // -------------------------------------------------------------
-    // AJOUT 1 : Récupération des éléments HTML de la modale dans le DOM
+    // 1. Récupération des éléments de la modale (<dialog>)
     // -------------------------------------------------------------
-
     const modal = document.getElementById('eventModal');
     const modalTitle = document.getElementById('modalTitle');
     const modalDate = document.getElementById('modalDate');
     const modalHour = document.getElementById('modalHour');
     const modalDescription = document.getElementById('modalDescription');
+    const modalImg = document.getElementById('modalImg'); // L'affiche du spectacle
+    const modalLien = document.getElementById('modalLien'); // Le lien billetterie
     const closeBtn = document.querySelector('.close-btn');
     
-    //Récupération de l'élément Calendrier dans le HTML avec création d'une nouvelle class
+    // -------------------------------------------------------------
+    // 2. Initialisation de FullCalendar
+    // -------------------------------------------------------------
     const calendarEl = document.getElementById('calendrier');
+    
     let calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: 'dayGridMonth',
-        locale: 'fr',
+        initialView: 'dayGridMonth', // Vue par mois par défaut
+        locale: 'fr', // Traduction en français
         headerToolbar: {
             left: 'prev,next today',
             center: 'title',
             right: ''
         },
-        buttons: {
-            today: {
-                text: "Aujourd'hui" // Force le texte affiché en français
-            }
+        buttons: { 
+            today: { text: "Aujourd'hui" } 
         },
-        //  Injection d'une classe personnalisée sur le jour d'aujourd'hui
+        // Injection d'une classe personnalisée pour styliser le jour actuel en CSS
         dayCellClass: function(state) {
-            if (state.isToday) {
-                return 'mon-jour-actuel'; // Le nom de classe que nous allons styliser en CSS
-            }
-            return '';
+            return state.isToday ? 'mon-jour-actuel' : '';
         },
-        events: [
-            {
-                title: 'Tout Conte Fée',
-                start: '2026-09-15',
-                color: '#64DFDF',
-                textColor: '#111111'
-            }
-        ],
+        
+        // 📡 API BACKEND : Demande à FullCalendar d'aller chercher le JSON généré par PHP
+        events: 'index.php?page=api_events',
+
         // -------------------------------------------------------------
-        // AJOUT 2 : Détection du clic sur un événement
+        // 3. Détection du clic sur une date de spectacle
         // -------------------------------------------------------------
         eventClick: function(info) {
-            // Empêche la redirection si l'événement contient un lien URL
+            // Empêche le comportement par défaut (éviter que la page ne saute)
             info.jsEvent.preventDefault();
 
-            // Remplissage des textes dans la modale avec les infos de l'événement cliqué
+            // --- Remplissage des textes basiques ---
             modalTitle.textContent = info.event.title;
             
-            // Formatage de la date en français (ex: 15/09/2026)
             if (info.event.start) {
+                // toLocaleDateString permet un affichage propre au format français (JJ/MM/AAAA)
                 modalDate.textContent = 'Date : ' + info.event.start.toLocaleDateString('fr-FR');
             }
-            modalHour.textContent = "A partir de 14H00";
             
-            // Récupération de la description (rangée dans extendedProps)
-            modalDescription.textContent = info.event.extendedProps.description || "Fanny, trentenaire, est toujours célibataire.\nPetite, on lui contaite de belles histoires de princesses, de châteaux enchantés et de beaux chevaliers...Et si le prince charmant n'existait pas ... Si Walt Disney était un gros mytho ? Lui aurait-on menti durant toutes ces années ?\nQuestion existentielle d'une génération à cheval entre deux époques, l'une convetionnelle et l'autre anti conformiste : \" Est-il indispensable de fonder une famille pour réussir sa vie ? \".\nC'est dans la peau d'une multitutde de personnages hauts en couleur, au travers de sketches désopilants, et parfois même en chanson, que Fanny essaiera de trouver les réponses aux nombreuses questions qu'elle se pose.";
+            // Les propriétés personnalisées (heure, description) sont rangées dans 'extendedProps'
+            modalHour.textContent = info.event.extendedProps.heure ? "A partir de " + info.event.extendedProps.heure : "";
+            modalDescription.textContent = info.event.extendedProps.description || "Description non disponible.";
 
-            // Affichage de la modale
-            modal.style.display = 'flex';
+            // --- Gestion dynamique de l'affiche ---
+            if (modalImg) {
+                if (info.event.extendedProps.affiche) {
+                    modalImg.src = info.event.extendedProps.affiche;
+                    modalImg.style.display = 'block'; // On rend l'image visible
+                } else {
+                    modalImg.src = '';
+                    modalImg.style.display = 'none'; // On cache la balise pour éviter le carré vide
+                }
+            }
+
+            // --- Gestion dynamique du lien de billetterie ---
+            if (modalLien) {
+                if (info.event.extendedProps.lien_billetterie) {
+                    modalLien.href = info.event.extendedProps.lien_billetterie;
+                    modalLien.style.display = 'inline-block'; // On affiche le bouton
+                } else {
+                    modalLien.style.display = 'none'; // On cache le bouton si c'est gratuit/complet
+                }
+            }
+
+            // --- Ouverture de la modale ---
+            // Utilisation de l'API HTML5 native des balises <dialog>
+            modal.showModal();
         }
     });
-        // -------------------------------------------------------------
-        // AJOUT 3 : Gestion de la fermeture de la modale ❌
-        // -------------------------------------------------------------
+    
+    // -------------------------------------------------------------
+    // 4. Gestion de la fermeture de la modale
+    // -------------------------------------------------------------
+    
+    // On écoute les clics sur l'ensemble du document
+    document.addEventListener('click', function(event) {
         
-        // 1. On écoute le clic sur TOUTE la page
-        document.addEventListener('click', function(event) {
-            
-            // Clic sur la croix ❌ (on vérifie si l'élément cliqué a la classe close-btn)
-            if (event.target.classList.contains('close-btn')) {
-                modal.style.display = 'none';
-            }
-
-            // Clic sur le fond sombre en dehors de la boîte 🌓
-            if (event.target === modal) {
-                modal.style.display = 'none';
-            }
+        // Cas n°1 : Clic sur la croix (bouton avec la classe .close-btn)
+        if (event.target.classList.contains('close-btn')) {
+            modal.close(); // Fermeture native du <dialog>
+        }
+        
+        // Cas n°2 : Clic en dehors de la boîte (sur le fond sombre / backdrop)
+        // Comme l'élément <dialog> prend tout l'écran, cliquer sur lui = cliquer sur le fond
+        if (event.target === modal) {
+            modal.close(); 
+        }
     });
+    
+    // -------------------------------------------------------------
+    // 5. Affichage final du calendrier
+    // -------------------------------------------------------------
     calendar.render();
 });
-
