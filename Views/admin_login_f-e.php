@@ -1,3 +1,4 @@
+<title>Connexion Administrateur</title>
 <form action="index.php?page=login" method="POST">
     
     <!-- FIELDSET : Regroupe sémantiquement un ensemble de champs logiques -->
