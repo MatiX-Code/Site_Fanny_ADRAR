@@ -14,6 +14,10 @@ body{
     margin :0px;
     
 }
+/* Couleur du bouton actif */
+#nav-links button.active {
+    background-color: #64DFDF;
+}
 
 /* Menu Burger */
 #burger span {

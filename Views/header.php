@@ -1,3 +1,4 @@
+<?php $page = $page ?? 'accueil'; ?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -30,12 +31,21 @@
     <!-- Boutons Navigations -->
     <header id="navbar">
         <nav id="nav-links" aria-label="Navigation principale">
-            <!-- Pensez à gérer la classe "active" en PHP plus tard si vous le souhaitez pour la couleur du bouton -->
-            <a href="index.php?page=accueil"><button>ACCUEIL</button></a>
-            <a href="index.php?page=mon_spectacle"><button>MON SPECTACLE</button></a>
-            <a href="index.php?page=portfolio"><button>PORTFOLIO</button></a>
-            <a href="index.php?page=planning"><button>PLANNING</button></a>
-            <a href="index.php?page=contact"><button>CONTACT</button></a>
+            <a href="index.php?page=accueil">
+                <button <?= ($page === 'accueil' || $page === '') ? 'class="active"' : '' ?>>ACCUEIL</button>
+            </a>
+            <a href="index.php?page=mon_spectacle">
+                <button <?= ($page === 'mon_spectacle') ? 'class="active"' : '' ?>>MON SPECTACLE</button>
+            </a>
+            <a href="index.php?page=portfolio">
+                <button <?= ($page === 'portfolio') ? 'class="active"' : '' ?>>PORTFOLIO</button>
+            </a>
+            <a href="index.php?page=planning">
+                <button <?= ($page === 'planning') ? 'class="active"' : '' ?>>PLANNING</button>
+            </a>
+            <a href="index.php?page=contact">
+                <button <?= ($page === 'contact') ? 'class="active"' : '' ?>>CONTACT</button>
+            </a>
         </nav>
         
         <!-- Menu Burger Responsive -->
