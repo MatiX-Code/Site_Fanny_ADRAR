@@ -1,0 +1,24 @@
+# 1. Désactiver l'affichage du contenu des dossiers (Sécurité)
+Options -Indexes
+
+# 2. Activer le moteur de réécriture des URL
+RewriteEngine On
+
+# 3. Protéger l'accès au fichier .env (Sécurité vitale)
+<Files .env>
+    Order allow,deny
+    Deny from all
+</Files>
+
+# 4. Le Routeur MVC : Rediriger les requêtes vers index.php
+# Si ce que l'utilisateur demande n'est pas un fichier existant (ex: une image, un css)
+
+RewriteCond %{REQUEST_FILENAME} !-f
+
+# Et si ce n'est pas un dossier existant
+
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Alors, on envoie la demande à index.php via la variable "page"
+
+RewriteRule ^(.*)$ index.php?page=$1 [QSA,L]
