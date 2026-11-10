@@ -59,9 +59,39 @@ switch ($page) {
     // PARTIE ADMINISTRATION (CMS)
     // ----------------------------------
     case 'admin':
-    case 'login':
-        require_once 'Views/admin_login_f-e.php';
-        break;
+        case 'login':
+            // 1. Si le formulaire a été soumis (Méthode POST)
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                
+                // On charge nos classes (les "acteurs" de notre MVC)
+                require_once 'Models/Database.php';
+                require_once 'Models/UserModel.php';
+                require_once 'Controllers/AuthController.php';
+
+                // On fait nos Injections de Dépendances (les poupées russes)
+                $db = new Database();
+                $pdo = $db->getConnection();
+                
+                $userModel = new UserModel($pdo);
+                $authController = new AuthController($userModel);
+
+                // On demande au contrôleur de traiter les données du formulaire
+                $message = $authController->login($_POST);
+
+                // On vérifie le résultat retourné par le contrôleur
+                if (strpos($message, 'Succès') === 0) {
+                    // Si ça commence par "Succès", on redirige vers la zone privée
+                    header('Location: index.php?page=admin_events');
+                    exit;
+                } else {
+                    // Sinon, on stocke le message d'erreur pour l'afficher dans la vue
+                    $erreur_login = $message;
+                }
+            }
+
+            // 2. Affichage de la vue (Que ce soit le premier chargement ou après une erreur)
+            require_once 'Views/admin_login_f-e.php';
+            break;
 
     case 'admin_events':
         // ==========================================
