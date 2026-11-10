@@ -1,14 +1,15 @@
 # Site_Fanny_ADRAR
 
-Projet fil Rouge pour le Titre de Dev:
+Projet fil rouge – Titre Professionnel de Développeur
 
-Création d'un site vitrine pour une artiste polyvalente ( chant, comédie...). Le site servira de portfolio, d'agenda pour les évents ainsi qu'une page de contact.
+Ce projet consiste en la création d'un site vitrine pour une artiste polyvalente (chant, comédie, etc.). Il a pour vocation de servir de portfolio, d'agenda événementiel et d'espace de contact.
 
-Le projet a été initialisé quelques moi auparavant : les pages du sites ont été crées en HTML, le CSS et JS crée également (ancien repo).
+Initialement, le projet avait été maquetté et intégré de manière statique (HTML, CSS et JavaScript) sur un premier dépôt.
 
-Suite à la formation et les compétences à présenter pour le titre, le projet est passé en PHP orienté objet avec la création d'une page de connexion pour un administrateur.
+Afin de répondre aux exigences de la formation et de mobiliser les compétences requises pour l'obtention du titre, le projet a été refondu en PHP Orienté Objet (POO). Cette évolution inclut notamment le développement d'un back-office sécurisé pour l'administration du site. Un nouveau dépôt (repo) a été créé pour repartir sur une base saine et faciliter la réorganisation des fichiers.
 
-Création d'un nouveau repo pour faciliter la création de la structure et la modification des fichiers existants.
+Caractéristiques techniques principales :
 
-* Utilisaton d'une bibliothèque en ligne pour la partie agenda ( FullCalendar).
-* Structure du projet en MVC.
+ * Architecture logicielle basée sur le motif de conception MVC (Modèle-Vue-Contrôleur).
+
+ * Intégration de la bibliothèque FullCalendar pour la gestion de l'agenda.
