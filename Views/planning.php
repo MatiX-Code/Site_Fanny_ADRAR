@@ -74,18 +74,20 @@
                     <button type="button" class="close-btn" aria-label="Fermer la fenêtre">&times;</button>
                     <h2 id="modalTitle"></h2>
                 </header>
-                
-                <img id="modalImg" src="../assets/photo/affiche_spectacle.jpeg" alt="Affiche Tout Conte Fée">
-                
+
+                <!-- L'ID est modalImg, on laisse le src vide au départ -->
+                <img id="modalImg" src="" alt="Affiche du spectacle">
+
                 <p><time id="modalDate"></time></p>
                 <p><time id="modalHour"></time></p>
                 <p id="modalDescription"></p>
-                
-                <footer id =modalFooter>
-                    <a id="modalLien" href="https://www.billetreduc.com/spectacle/tout-conte-fee-352764" target="_blank" rel="noopener">Réserver ma place</a>
+
+                <footer id="modalFooter">
+                    <!-- L'ID est modalLien, on laisse le href vide au départ -->
+                    <a id="modalLien" href="" target="_blank" rel="noopener">Réserver ma place</a>
                 </footer>
             </article>
-        </dialog>   
+        </dialog>  
     </main>
 
     <!-- Pied de page -->
