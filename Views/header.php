@@ -18,13 +18,13 @@
     <link href='https://cdn.jsdelivr.net/npm/fullcalendar@7.1.0/themes/monarch/theme.css' rel='stylesheet' />
 
     <!-- Fichiers CSS personnels -->
-    <link rel="stylesheet" href="Public/css/fanny.css">
-    <link rel="stylesheet" href="Public/css/fanny_media_queries.css">
-    <link rel="stylesheet" href="Public/css/fanny_calendar.css">
-    <link rel="stylesheet" href="Public/css/fanny_modale.css">
+    <link rel="stylesheet" href="public/css/fanny.css">
+    <link rel="stylesheet" href="public/css/fanny_media_queries.css">
+    <link rel="stylesheet" href="public/css/fanny_calendar.css">
+    <link rel="stylesheet" href="public/css/fanny_modale.css">
 
     <!-- Script JS personnel -->
-    <script src="Public/js/fanny.js" defer></script>
+    <script src="public/js/fanny.js" defer></script>
 </head>
 
 <body>
