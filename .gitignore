@@ -1,0 +1,14 @@
+# 1. SÉCURITÉ : Ne JAMAIS envoyer les mots de passe sur GitHub
+.env
+
+# 2. FICHIERS UPLOADÉS : Ignorer les images ajoutées par l'admin via le CMS
+# (On ne versionne pas les données dynamiques du site)
+Public/assets/uploads/*
+!Public/assets/uploads/.gitkeep 
+
+#L'astuce du .gitkeep : Git refuse de sauvegarder un dossier vide. Si on met un petit fichier vide nommé .gitkeep dans notre dossier uploads et qu'on ajoute la ligne !Public/assets/uploads/.gitkeep, Git créera bien le dossier sur notre serveur, mais ignorera toutes les images à l'intérieur.
+
+# 3. FICHIERS SYSTÈMES : Ignorer les fichiers générés par Windows ou Mac
+.DS_Store
+Thumbs.db
+
