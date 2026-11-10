@@ -1,4 +1,4 @@
-<?php
+<?php 
 // 1. Démarrage de la session (Indispensable pour gérer la connexion de l'administrateur plus tard)
 session_start();
 
@@ -10,14 +10,14 @@ require_once 'Models/Database.php';
 // Le "??" signifie : si 'page' n'existe pas dans l'URL, on met 'accueil' par défaut.
 $page = $_GET['page'] ?? 'accueil';
 
-// 3. Le Routeur (Le "Maître d'hôtel")
+// 3. Le Routeur (Front Controller)
 switch ($page) {
 
     // ----------------------------------
     // PAGES PUBLIQUES (Vues directes)
     // ----------------------------------
     case 'accueil':
-    case '': // Si l'URL est juste la racine du site
+    case '': // Racine du site
         require_once 'Views/accueil.php';
         break;
 
@@ -60,17 +60,30 @@ switch ($page) {
     // ----------------------------------
     case 'admin':
     case 'login':
-        // Affichage de la page de connexion
         require_once 'Views/admin_login_f-e.php';
         break;
 
     case 'admin_events':
-        // ATTENTION POUR L'ORAL : 
-        // Pour l'instant on affiche directement la vue.
-        // Mais plus tard, on appellera le EventController ici pour VÉRIFIER que la personne 
-        // est bien connectée en tant qu'admin AVANT d'afficher cette page (Sécurité !).
+        // ==========================================
+        // 🔒 PÉAGE DE SÉCURITÉ 
+        // ==========================================
+        // On vérifie si la variable de session existe ET si elle vaut true
+        if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
+            // L'utilisateur n'est pas connecté : on le renvoie vers la page de login
+            header('Location: index.php?page=login');
+            // SÉCURITÉ CRITIQUE : On bloque l'exécution du reste du code
+            exit; 
+        }
+
+        // Si la vérification passe, on charge la page privée
         require_once 'Views/admin_events_f-e.php';
         break;
+
+    case 'logout':
+        // 🚪 SYSTÈME DE DÉCONNEXION
+        session_destroy(); // Détruit toutes les données de session
+        header('Location: index.php?page=accueil'); // Redirection vers l'accueil
+        exit;
 
     // ----------------------------------
     // GESTION DES ERREURS
