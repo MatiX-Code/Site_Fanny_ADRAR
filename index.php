@@ -114,6 +114,27 @@ switch ($page) {
         session_destroy(); // Détruit toutes les données de session
         header('Location: index.php?page=accueil'); // Redirection vers l'accueil
         exit;
+        
+    // ==========================================
+    // 📡 ROUTE API POUR LE CALENDRIER JS
+    // ==========================================
+    case 'api_events':
+        // 1. On appelle les fichiers nécessaires
+        require_once 'Models/Database.php';
+        require_once 'Models/EventModel.php';
+        require_once 'Controllers/EventController.php';
+
+        // 2. On instancie les classes
+        $db = new Database();
+        $pdo = $db->getConnection();
+        $eventModel = new EventModel($pdo);
+        $eventController = new EventController($eventModel);
+
+        // 3. On déclenche la méthode qui génère le JSON
+        // (Rappelez-vous, cette méthode contient un "exit;" à la fin 
+        // pour ne pas afficher le reste du HTML de la page)
+        $eventController->exportEventsToJson();
+        break;
     
     // ==========================================
     // ⚠️ ROUTE TEMPORAIRE (À SUPPRIMER ENSUITE)
