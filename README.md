@@ -13,3 +13,7 @@ Caractéristiques techniques principales :
  * Architecture logicielle basée sur le motif de conception MVC (Modèle-Vue-Contrôleur).
 
  * Intégration de la bibliothèque FullCalendar pour la gestion de l'agenda.
+
+ * Création d'une base de données.
+ 
+ * Création d'un mini CMS admin
