@@ -24,6 +24,13 @@ class EventController {
         foreach ($spectacles as $spectacle) {
             $dateObj = new DateTime($spectacle['date_event']);
 
+            // ⭐ On nettoie l'affiche : on supprime tout chemin éventuel et on remplace les antislashs Windows
+            $nomPropreAffiche = '';
+            if (!empty($spectacle['affiche_event'])) {
+                $cheminNormalise = str_replace('\\', '/', $spectacle['affiche_event']);
+                $nomPropreAffiche = basename($cheminNormalise);
+            }
+
             $eventsForCalendar[] = [
                 'id' => $spectacle['id_event'],
                 'title' => $spectacle['titre_event'],
@@ -31,11 +38,10 @@ class EventController {
                 'color' => '#64DFDF',
                 'textColor' => '#111111',
                 
-                // --- Données étendues pour la modale (extendedProps) ---
                 'heure' => $dateObj->format('H\hi'), 
                 'description' => $spectacle['resume_event'],
                 'lien_billetterie' => $spectacle['lien_event'],
-                'affiche' => $spectacle['affiche_event'] // Chemin de l'image pour le JS
+                'affiche' => $nomPropreAffiche // ⭐ On envoie uniquement le nom de fichier propre au JS
             ];
         }
 
@@ -83,7 +89,7 @@ class EventController {
         if (isset($_FILES['affiche_event']) && $_FILES['affiche_event']['error'] === UPLOAD_ERR_OK) {
             // ATTENTION : Créez bien le dossier "assets/uploads/" à la racine de votre projet !
             $dossier_cible = 'public/assets/uploads/'; 
-            $nom_fichier = $_FILES['affiche_event']['name'];
+            $nom_fichier = uniqid() . '_' . str_replace(' ', '_', basename($_FILES['affiche_event']['name']));
             $chemin_temporaire = $_FILES['affiche_event']['tmp_name'];
             $taille_fichier = $_FILES['affiche_event']['size'];
 
@@ -117,8 +123,8 @@ class EventController {
         } else {
             return "Erreur : Impossible d'ajouter le spectacle.";
         }
-    }
-    /**
+    }    
+   /**
      * UPDATE : Traitement du formulaire de modification
      */
     public function modifyEvent(int $id, array $postData, array $fileData): string {
@@ -136,11 +142,9 @@ class EventController {
             $nomFichier = uniqid() . '_' . basename($fileData['affiche_event']['name']);
             
             if (move_uploaded_file($fileData['affiche_event']['tmp_name'], $dossierUpload . $nomFichier)) {
-                // ⭐ On inclut le chemin complet pour garder la même structure qu'à l'ajout
-                $nomAffiche = 'public/assets/uploads/' . $nomFichier; 
+                $nomAffiche = $nomFichier; // On stocke uniquement le nom du fichier
             }
-        } // On remplace l'ancienne image par la nouvelle
-            
+        }
 
         // On vérifie les champs obligatoires
         if (empty($titre) || empty($date_event)) {
