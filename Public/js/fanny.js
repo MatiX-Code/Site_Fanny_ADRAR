@@ -79,7 +79,8 @@ document.addEventListener('DOMContentLoaded', function() {
             // --- Gestion dynamique de l'affiche ---
             if (modalImg) {
                 if (info.event.extendedProps.affiche) {
-                    modalImg.src = info.event.extendedProps.affiche;
+                    // On ajoute explicitement le chemin du dossier devant le nom de l'image
+                    modalImg.src = 'public/assets/uploads/' + info.event.extendedProps.affiche;
                     modalImg.style.display = 'block'; // On rend l'image visible
                 } else {
                     modalImg.src = '';

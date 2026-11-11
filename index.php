@@ -131,7 +131,7 @@ switch ($page) {
 
     case 'admin_events':
             // ==========================================
-            // 🔒 PÉAGE DE SÉCURITÉ (Votre excellent code !)
+            // 🔒 PÉAGE DE SÉCURITÉ
             // ==========================================
             if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
                 header('Location: index.php?page=login');
@@ -141,7 +141,6 @@ switch ($page) {
             // ==========================================
             // ⚙️ APPEL DU CONTRÔLEUR ET GESTION DES DONNÉES
             // ==========================================
-            // 1. On charge les outils nécessaires
             require_once 'Models/Database.php';
             require_once 'Models/EventModel.php';
             require_once 'Controllers/EventController.php';
@@ -151,15 +150,86 @@ switch ($page) {
             $eventModel = new EventModel($pdo);
             $eventController = new EventController($eventModel);
 
-            // 2. Écoute du formulaire : Si l'admin a cliqué sur "Ajouter"
+            // 1. Écoute du formulaire : Si l'admin a cliqué sur "Ajouter"
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                // On envoie toutes les données saisies au Contrôleur
                 $message_event = $eventController->addEvent($_POST);
             }
 
-            // 3. On charge la page HTML (qui affichera le $message_event)
+            // 2. On récupère TOUS les événements de la BDD
+            $allEvents = $eventModel->getAllEvents();
+
+            // 3. On charge la page HTML (qui va utiliser $allEvents pour construire le tableau)
             require_once 'Views/admin_events_f-e.php';
             break;
+    // ==========================================
+    // ✏️ ROUTE : MODIFIER UN SPECTACLE
+    // ==========================================
+    case 'edit_event':
+        if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
+            header('Location: index.php?page=login');
+            exit;
+        }
+
+        if (!isset($_GET['id']) || empty($_GET['id'])) {
+            header('Location: index.php?page=admin_events');
+            exit;
+        }
+        $id = (int) $_GET['id'];
+
+        require_once 'Models/Database.php';
+        require_once 'Models/EventModel.php';
+        require_once 'Controllers/EventController.php'; // N'oubliez pas d'inclure le contrôleur !
+        
+        $db = new Database();
+        $pdo = $db->getConnection();
+        $eventModel = new EventModel($pdo);
+        $eventController = new EventController($eventModel);
+
+        // ⭐  Si on a cliqué sur "Mettre à jour" (POST)
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // On envoie les données, les fichiers (image) et l'ID au Contrôleur
+            $message_edit = $eventController->modifyEvent($id, $_POST, $_FILES);
+        }
+
+        // On récupère les infos du spectacle (qui seront fraîches si on vient de faire un POST)
+        $eventToEdit = $eventModel->getEventById($id);
+
+        if (!$eventToEdit) {
+            header('Location: index.php?page=admin_events');
+            exit;
+        }
+
+        require_once 'Views/edit_event.php';
+        break;
+
+    // ==========================================
+    // 🗑️ ROUTE : SUPPRIMER UN SPECTACLE
+    // ==========================================
+    case 'delete_event':
+        // 1. PÉAGE DE SÉCURITÉ (Seul l'admin a le droit de supprimer)
+        if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
+            header('Location: index.php?page=login');
+            exit;
+        }
+
+        // 2. Vérification : On s'assure que l'ordre vient bien du formulaire POST
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['event_id'])) {
+            require_once 'Models/Database.php';
+            require_once 'Models/EventModel.php';
+
+            $db = new Database();
+            $pdo = $db->getConnection();
+            $eventModel = new EventModel($pdo);
+
+            // 3. On demande au modèle de supprimer la ligne avec cet ID
+            // (Le (int) est une sécurité supplémentaire pour forcer un format numérique)
+            $eventModel->deleteEvent((int) $_POST['event_id']);
+        }
+
+        // 4. Une fois supprimé (ou si on a tenté de tricher en y allant sans POST), 
+        // on renvoie l'utilisateur vers le tableau de bord
+        header('Location: index.php?page=admin_events');
+        exit;
 
     // ==========================================
     // 📡 ROUTE API POUR LE CALENDRIER JS

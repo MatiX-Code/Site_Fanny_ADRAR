@@ -36,6 +36,44 @@ class EventModel {
         
         return $stmt->execute();
     }
+    /**
+     * UPDATE : Modifie un événement existant
+     * 
+     */
+    // Récupère les données d'un seul spectacle pour le pré-remplir
+    public function getEventById(int $id): ?array {
+        
+        $sql = "SELECT id_event, titre_event, date_event, affiche_event, resume_event, lien_event FROM event WHERE id_event = :id";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([':id' => $id]);
+        
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result ?: null; // Retourne le tableau de données, ou null si introuvable
+
+    }
+    // Met à jour un spectacle existant
+    public function updateEvent(int $id, string $titre, string $date_event, string $resume, string $lien, string $affiche): bool {
+        
+        // ⚠️ Adaptez les noms des colonnes selon votre base de données !
+        $sql = "UPDATE event SET 
+                titre_event = :titre, 
+                date_event = :date_event, 
+                resume_event = :resume, 
+                lien_event = :lien, 
+                affiche_event = :affiche 
+                WHERE id_event = :id";
+                
+        $stmt = $this->pdo->prepare($sql);
+        
+        return $stmt->execute([
+            ':titre' => $titre,
+            ':date_event' => $date_event,
+            ':resume' => $resume,
+            ':lien' => $lien,
+            ':affiche' => $affiche,
+            ':id' => $id
+        ]);
+    }
 
     /**
      * DELETE : Supprime un événement

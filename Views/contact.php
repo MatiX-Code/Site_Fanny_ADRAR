@@ -4,7 +4,7 @@
 
         <section class="contact">
         <article class="contact-description">
-            <h3>Vous souhaitez plus d'informations ?</h3>
+            <h2>Vous souhaitez plus d'informations ?</h2>
             <p> Vous pouvez remplir directement le formulaire ci-dessous ou me contacter à l'adresse suivante : <a href="mailto:      adressebellemaman@gmail.com">adressebellemaman@gmail.com</a>.</p>
         <p> Je vous répondrai dans les plus brefs délais.</p>
         </article>

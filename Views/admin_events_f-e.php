@@ -46,3 +46,48 @@
 
     <button type="submit">Enregistrer la date</button>
 </form>
+<hr style="margin: 40px 0;">
+
+<h2>Liste des spectacles existants</h2>
+
+<table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+    <thead>
+        <tr style="background-color: #f4f4f4; text-align: left;">
+            <th style="padding: 10px; border: 1px solid #ddd;">Titre</th>
+            <th style="padding: 10px; border: 1px solid #ddd;">Date et Heure</th>
+            <th style="padding: 10px; border: 1px solid #ddd;">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php if (!empty($allEvents)): ?>
+            <?php foreach ($allEvents as $event): ?>
+                <tr>
+                    <td style="padding: 10px; border: 1px solid #ddd;">
+                        <!-- REMPLACEZ 'titre' SI VOTRE COLONNE S'APPELLE AUTREMENT -->
+                        <?= htmlspecialchars($event['titre_event'] ?? 'Titre inconnu', ENT_QUOTES, 'UTF-8') ?>
+                    </td>
+                    
+                    <td style="padding: 10px; border: 1px solid #ddd;">
+                        <!-- REMPLACEZ 'date_event' SI VOTRE COLONNE S'APPELLE AUTREMENT -->
+                        <?= htmlspecialchars($event['date_event'] ?? 'Date inconnue', ENT_QUOTES, 'UTF-8') ?>
+                    </td>
+                    
+                    <td style="padding: 10px; border: 1px solid #ddd;">
+                        <!-- Bouton Modifier -->
+                        <a href="index.php?page=edit_event&id=<?= htmlspecialchars((string)$event['id_event'], ENT_QUOTES, 'UTF-8') ?>" style="color: blue; text-decoration: none; margin-right: 15px;">Modifier</a>
+                        
+                        <!-- Bouton Supprimer -->
+                        <form action="index.php?page=delete_event" method="POST" style="display:inline;" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce spectacle ?');">
+                            <input type="hidden" name="event_id" value="<?= htmlspecialchars((string)$event['id_event'], ENT_QUOTES, 'UTF-8') ?>">
+                            <button type="submit" style="color: red; background: none; border: none; cursor: pointer; text-decoration: underline;">Supprimer</button>
+                        </form>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <tr>
+                <td colspan="3" style="padding: 10px; text-align: center; border: 1px solid #ddd;">Aucun spectacle programmé.</td>
+            </tr>
+        <?php endif; ?>
+    </tbody>
+</table>

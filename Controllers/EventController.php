@@ -118,6 +118,44 @@ class EventController {
             return "Erreur : Impossible d'ajouter le spectacle.";
         }
     }
+    /**
+     * UPDATE : Traitement du formulaire de modification
+     */
+    public function modifyEvent(int $id, array $postData, array $fileData): string {
+        $titre = trim($postData['titre'] ?? '');
+        $date_event = trim($postData['date_event'] ?? '');
+        $resume = trim($postData['resume'] ?? '');
+        $lien = trim($postData['lien'] ?? '');
+        
+        // GESTION DE L'IMAGE : On garde l'ancienne par défaut
+        $nomAffiche = $postData['ancienne_affiche'] ?? ''; 
+
+        // Si l'utilisateur a uploadé un NOUVEAU fichier sans erreur
+        if (isset($fileData['affiche_event']) && $fileData['affiche_event']['error'] === UPLOAD_ERR_OK) {
+            $dossierUpload = dirname(__DIR__) . '/public/assets/uploads/';
+            $nomFichier = uniqid() . '_' . basename($fileData['affiche_event']['name']);
+            
+            if (move_uploaded_file($fileData['affiche_event']['tmp_name'], $dossierUpload . $nomFichier)) {
+                // ⭐ On inclut le chemin complet pour garder la même structure qu'à l'ajout
+                $nomAffiche = 'public/assets/uploads/' . $nomFichier; 
+            }
+        } // On remplace l'ancienne image par la nouvelle
+            
+
+        // On vérifie les champs obligatoires
+        if (empty($titre) || empty($date_event)) {
+            return "Erreur : Le titre et la date sont obligatoires.";
+        }
+
+        // On ordonne au Modèle de faire la mise à jour SQL
+        $success = $this->eventModel->updateEvent($id, $titre, $date_event, $resume, $lien, $nomAffiche);
+
+        if ($success) {
+            return "Succès : Le spectacle a bien été mis à jour.";
+        } else {
+            return "Erreur : Problème lors de la mise à jour en base de données.";
+        }
+    }
 
     /**
      * DELETE : Suppression
