@@ -12,9 +12,9 @@
             
             <!-- Affichage du message de retour PHP -->
             <?php if (isset($message_newsletter)): ?>
-                <div style="font-weight: bold; margin-bottom: 15px; text-align: center; color: <?= strpos($message_newsletter, 'Succès') === 0 ? 'green' : 'red' ?>;">
+                <p role="alert" style="font-size: 1.5rem; font-weight: bold; margin-bottom: 20px; text-align: center; color: <?= strpos($message_newsletter, 'Succès') === 0 ? 'green' : 'red' ?>;">
                     <?= htmlspecialchars($message_newsletter, ENT_QUOTES, 'UTF-8') ?>
-                </div>
+                </p>
             <?php endif; ?>
 
             <!-- Le formulaire pointe vers la page planning du routeur -->
