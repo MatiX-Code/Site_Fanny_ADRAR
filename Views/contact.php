@@ -8,6 +8,14 @@
             <p> Vous pouvez remplir directement le formulaire ci-dessous ou me contacter à l'adresse suivante : <a href="mailto:      adressebellemaman@gmail.com">adressebellemaman@gmail.com</a>.</p>
         <p> Je vous répondrai dans les plus brefs délais.</p>
         </article>
+        
+        <!-- Affichage du message de retour PHP (Sémantique et Accessible) -->
+        <?php if (isset($message_contact)): ?>
+            <p role="alert" style="font-size: 1.5rem; font-weight: bold; margin-bottom: 20px; text-align: center; color: <?= strpos($message_contact, 'Succès') === 0 ? 'green' : 'red' ?>;">
+                <?= htmlspecialchars($message_contact, ENT_QUOTES, 'UTF-8') ?>
+            </p>
+        <?php endif; ?>
+
             <!-- Formulaire de contact MVC avec Sécurité Front-End -->
         <form class="contact-form" action="index.php?page=contact" method="POST">
             

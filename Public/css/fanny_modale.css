@@ -98,15 +98,29 @@ dialog#eventModal::backdrop {
     white-space: pre-line; /* Permet au HTML de respecter les \n */
     margin-bottom: 35px;
 }
-#modalLien{
-    margin-bottom: 10px;
-    font-family:"Instrument Sans";
-    align-self: end;
+#modalFooter {
+    display: flex;
+    justify-content: center; /* Centre horizontalement avec Flexbox */
+    align-items: center;     /* Centre verticalement */
+    width: 100%;
+    margin-top: 15px;
+    background-color: transparent;
+}
+
+#modalLien {
+    /* Le fait d'être dans un parent 'flex' va le centrer automatiquement */
+    margin-bottom: 20px;
+    color: #111111;
+    font-family: "Instrument Sans", sans-serif;
     font-size: xx-large;
     text-decoration: none;
-    color: #111111;
-
+    font-weight: bold;
+    border-bottom: 3px solid #64DFDF;
+    padding-bottom: 5px;
+    transition: transform 0.2s ease, color 0.2s ease;
 }
-#modalFooter{
-    background-color: #ffffff;
+/* Petit bonus : un effet visuel au survol pour inciter au clic */
+#modalLien:hover {
+    color: #E36BB9; 
+    transform: scale(1.05);
 }
