@@ -42,8 +42,31 @@ switch ($page) {
         break;
 
     case 'planning':
-        // Pour l'instant on charge juste la vue. 
-        // Plus tard, on appellera le EventController ici pour chercher les événements en BDD
+        // ==========================================
+        // 1. CHARGEMENT DES OUTILS POUR LA NEWSLETTER
+        // ==========================================
+        require_once 'Models/Database.php';
+        require_once 'Models/NewsletterModel.php';
+        require_once 'Controllers/NewsletterController.php';
+
+        $db = new Database();
+        $pdo = $db->getConnection();
+        $newsletterModel = new NewsletterModel($pdo);
+        $newsletterController = new NewsletterController($newsletterModel);
+
+        // ==========================================
+        // 2. ÉCOUTE DU FORMULAIRE DE NEWSLETTER
+        // ==========================================
+        // Si le visiteur a cliqué sur "S'inscrire" (Envoi en POST avec le champ "mail")
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['mail'])) {
+            // On traite l'inscription et on récupère le message de retour
+            $message_newsletter = $newsletterController->subscribe($_POST);
+        }
+
+        // ==========================================
+        // 3. AFFICHAGE DE LA PAGE
+        // ==========================================
+        // (Les spectacles se chargeront tout seuls via le JS et l'API)
         require_once 'Views/planning.php';
         break;
 
