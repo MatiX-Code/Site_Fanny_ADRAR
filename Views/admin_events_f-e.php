@@ -2,6 +2,8 @@
 <?php if (isset($message_event)): ?>
     <div style="font-weight: bold; margin-bottom: 20px; color: <?= strpos($message_event, 'Succès') === 0 ? 'green' : 'red' ?>;">
         <?= htmlspecialchars($message_event, ENT_QUOTES, 'UTF-8') ?>
+        <h2>Espace Administration — Gestion des spectacles</h2>
+    <a href="index.php?page=logout" style="padding: 8px 12px; background-color: #ff4d4d; color: white; text-decoration: none; border-radius: 4px;">Se déconnecter</a>
     </div>
 <?php endif; ?>
 
