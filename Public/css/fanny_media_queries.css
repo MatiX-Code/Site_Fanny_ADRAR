@@ -8,37 +8,55 @@
         position: fixed;
         top: 0;
         left: 0;
-        width: 30%;          /* Prend 30% de la largeur de l'écran (ajustable) */
+        width: 100%;          /* 100% de l'écran pour le menu mobile (tiroir plein écran) */
         height: 100vh;        /* Prend toute la hauteur */
         background-color: #ffffff; /* Couleur de fond du panneau */
-        border: 2px black solid;
-        border-radius: 20px;
+        border: none;         /* On enlève la bordure qui fait bizarre en plein écran */
         
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         
-        /* Cache le menu hors de l'écran à droite */
+        /* Cache le menu hors de l'écran à gauche */
         transform: translateX(-100%); 
         
         /* Animation fluide de 0.3 seconde */
         transition: transform 0.3s ease-in-out; 
         
         z-index: 1000; /* Superpose le menu par-dessus tout le contenu */
-        box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2); /* Ombre portée stylée */
     }
-    #nav-links button{
-        font-size:0.8rem;
-        padding: 5px;
+    
+    #nav-links a {
+        font-size: 1.2rem;
+        padding: 10px 20px;
+        margin: 15px;
+        width: 70%;
+        text-align: center;
     }
+    
     #nav-links.open {
-    transform: translateX(0);
-}
+        transform: translateX(0);
+    }
+    
     #burger{
         display: block;
         z-index :1001;
+        margin: 15px 0 0 15px; /* Éloigne un peu l'icône du bord */
     }
+
+    /* FORMULAIRE CONTACT : On le force à prendre toute la place ! */
+    section.contact,
+    form.contact-form {
+        width: 95%; 
+        margin: 0 auto;
+    }
+    main section.contact form.contact-form input,
+    main section.contact textarea {
+        width: 100%;
+        box-sizing: border-box; /* Empêche le champ de déborder de l'écran */
+    }
+
     h1{
         font-size: 20px;
         margin: 20px;
@@ -61,61 +79,78 @@
         padding-top: 10px;
     }
     p.newletter{
-    margin-top: 55px;
-    font-family: "Instrument Sans", sans-serif;
-    font-optical-sizing: auto;
-    font-weight: weight;
-    font-style: normal;
-    font-variation-settings:"wdth" 100;
-    font-size: 1rem ;
-    text-align: center;
-}
+        margin-top: 55px;
+        font-family: "Instrument Sans", sans-serif;
+        font-size: 1rem ;
+        text-align: center;
+    }
     p.footer{
         font-size: 1.5rem ;
         margin:0px;
     }
     form.newletter{
-    text-align: center;
-    font-size: medium;
-}
-input.newletter{
-    font-size: medium;
-}
+        text-align: center;
+        font-size: medium;
+    }
+    input.newletter{
+        font-size: medium;
+    }
     img{
         margin: 0;
     }
-/* Boutton Calendrier */
-
-    /*Réduire les boutons pour qu'ils tiennent sur une seule ligne */
+    /* On donne de la largeur au bouton Envoyer sur mobile */
+    button.contact-submit {
+        width: 80%;
+        margin: 20px auto; /* Centre le bouton */
+        padding: 12px; /* Agrandit un peu la zone de clic pour le doigt */
+    }
+    
+    /* Boutons Calendrier (Conservés intacts) */
     .fc button,
     .fc-toolbar button,
     button[class*="fc-"] {
         padding: 6px 12px !important;
-        margin: 4px 2px !important; /* Moins d'espace entre les boutons */
-        font-size: 0.85rem !important; /* Écriture légèrement plus petite */
+        margin: 4px 2px !important;
+        font-size: 0.85rem !important;
     }
-
-    /* Réduire l'espacement excessif des flèches (SVG) sur mobile */
     .fc button svg,
     button[class*="fc-"] svg,
     svg {
         margin: 0 4px !important; 
-        width: 14px !important; /* Flèches plus discrètes */
+        width: 14px !important;
         height: 14px !important;
     }
-
-    /* Réduire la taille du titre du mois pour éviter qu'il pousse les boutons dehors */
     .fc .fc-toolbar-title,
     .fc-monarch-AVD {
-        font-size: 1.3rem !important; /* Titre plus compact sur mobile */
+        font-size: 1.3rem !important;
     }
-
-    /* Autoriser la barre d'outils à s'organiser proprement si l'écran est vraiment très petit */
     .fc-toolbar {
         flex-direction: column !important;
         gap: 10px !important;
     }
 }
+/*Bouton de fermeture de la modale Agenda */
+    
+    /* 1. On donne un point de repère à la modale et on force un espace vide en haut */
+    .modal-content {
+        position: relative !important;
+        padding-top: 50px !important; /* Crée une zone de sécurité de 50px en haut */
+    }
+
+    /* 2. On cloue le bouton dans le coin supérieur droit de cette zone de sécurité */
+    .close-btn {
+        position: absolute !important;
+        top: 10px !important;
+        right: 15px !important;
+        margin: 0 !important; /* Annule les éventuelles marges du PC */
+    }
+
+    /* 3. On s'assure que le titre a une taille adaptée au mobile */
+    #modalTitle {
+        margin-top: 0;
+        font-size: 1.5rem;
+        padding: 0 10px; /* Évite que le texte ne touche les bords gauche/droite */
+    }
 
 
 /* Media Queries pour tablette */
@@ -149,6 +184,10 @@ input.newletter{
         z-index: 1000; /* Superpose le menu par-dessus tout le contenu */
         box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2); /* Ombre portée stylée */
     }
+    /* Permet l'ouverture du menu sur tablette */
+    #nav-links.open {
+        transform: translateX(0);
+    }
     #burger {
         display: block;
         z-index :1001;
@@ -176,6 +215,12 @@ input.newletter{
         flex-direction: column;
         align-items: center;
         padding-top: 10px;
+    }
+        /* On donne de la largeur au bouton Envoyer sur tablette*/
+    button.contact-submit {
+        width: 80%;
+        margin: 20px auto; /* Centre le bouton */
+        padding: 12px; /* Agrandit un peu la zone de clic pour le doigt */
     }
 }
 
