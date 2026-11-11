@@ -14,8 +14,8 @@ body{
     margin :0px;
     
 }
-/* Couleur du bouton actif */
-#nav-links button.active {
+/* Couleur du lien actif */
+#nav-links a.active {
     background-color: #64DFDF;
 }
 
@@ -37,6 +37,31 @@ nav.open {
     display: flex; 
     flex-direction: column;
     transform: translateX(0.3%);
+}
+/* Transformation des liens de navigation en boutons */
+#nav-links a {
+    display: inline-block; /* Indispensable pour qu'un lien accepte des marges et des paddings */
+    text-decoration: none; /* Supprime le soulignement natif des liens */
+    color: black; /* Force la couleur du texte en noir au lieu du bleu par défaut */
+    
+    /* On reprend exactement le design de vos anciens boutons : */
+    background-color: #E36BB9;
+    border: 3px solid black;
+    margin: 20px;
+    padding: 5px 20px; /* Ajusté légèrement pour bien centrer le texte verticalement */
+    cursor: pointer;
+    font-size: 1.313rem;
+    font-family: "Young Serif", serif;
+    font-weight: 400;
+    font-style: normal;
+    border-radius: 25px;
+    box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.5);
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+/* Petit bonus : un effet au survol de la souris */
+#nav-links a:hover {
+    transform: scale(1.05);
 }
 button:not(.fc-button){
     background-color: #E36BB9;

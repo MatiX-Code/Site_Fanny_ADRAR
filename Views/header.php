@@ -31,20 +31,20 @@
     <!-- Boutons Navigations -->
     <header id="navbar">
         <nav id="nav-links" aria-label="Navigation principale">
-            <a href="index.php?page=accueil">
-                <button <?= ($page === 'accueil' || $page === '') ? 'class="active"' : '' ?>>ACCUEIL</button>
+            <a href="index.php?page=accueil" <?= ($page === 'accueil' || $page === '') ? 'class="active"' : '' ?>>
+                ACCUEIL
             </a>
-            <a href="index.php?page=mon_spectacle">
-                <button <?= ($page === 'mon_spectacle') ? 'class="active"' : '' ?>>MON SPECTACLE</button>
+            <a href="index.php?page=mon_spectacle" <?= ($page === 'mon_spectacle') ? 'class="active"' : '' ?>>
+                MON SPECTACLE
             </a>
-            <a href="index.php?page=portfolio">
-                <button <?= ($page === 'portfolio') ? 'class="active"' : '' ?>>PORTFOLIO</button>
+            <a href="index.php?page=portfolio" <?= ($page === 'portfolio') ? 'class="active"' : '' ?>>
+                PORTFOLIO
             </a>
-            <a href="index.php?page=planning">
-                <button <?= ($page === 'planning') ? 'class="active"' : '' ?>>PLANNING</button>
+            <a href="index.php?page=planning" <?= ($page === 'planning') ? 'class="active"' : '' ?>>
+                PLANNING
             </a>
-            <a href="index.php?page=contact">
-                <button <?= ($page === 'contact') ? 'class="active"' : '' ?>>CONTACT</button>
+            <a href="index.php?page=contact" <?= ($page === 'contact') ? 'class="active"' : '' ?>>
+                CONTACT
             </a>
         </nav>
         
