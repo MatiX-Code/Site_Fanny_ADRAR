@@ -47,8 +47,21 @@ switch ($page) {
         require_once 'Views/planning.php';
         break;
 
+    // ==========================================
+    // ✉️ ROUTE : PAGE DE CONTACT
+    // ==========================================
     case 'contact':
-        require_once 'Views/contact.php';
+        require_once 'Controllers/ContactController.php';
+        $contactController = new ContactController();
+        
+        // Si le formulaire vient d'être cliqué
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // On envoie toutes les données au contrôleur qui retourne un message (Succès ou Erreur)
+            $message_contact = $contactController->sendEmail($_POST);
+        }
+
+        // On affiche la page
+        require_once 'Views/contact.php'; // Mettez le nom exact de votre fichier de vue
         break;
 
     case 'mentions_legales':
