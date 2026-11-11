@@ -190,7 +190,7 @@ section.spectacle{
     flex-direction: column;
     align-items: center;
 }
-p.newletter{
+p.newsletter{
     margin-top: 55px;
     font-family: "Instrument Sans", sans-serif;
     font-optical-sizing: auto;
@@ -200,7 +200,7 @@ p.newletter{
     font-size: 1.5rem ;
     text-align: center;
 }
-form.newletter{
+form.newsletter{
     text-align: center;
     font-size: xx-large;
     margin-bottom: 30px;

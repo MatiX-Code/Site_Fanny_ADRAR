@@ -11,7 +11,7 @@ class NewsletterModel {
     public function emailExists(string $email): bool {
         // Bonne pratique : On ne sélectionne que le champ nécessaire (l'email)
         // et on ajoute "LIMIT 1" pour que la base s'arrête de chercher dès le premier trouvé.
-        $sql = "SELECT email FROM newsletter WHERE email = :email LIMIT 1";
+        $sql = "SELECT email_abonne FROM abonne WHERE email_abonne = :email LIMIT 1";
         
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute(['email' => $email]);
@@ -24,7 +24,7 @@ class NewsletterModel {
     // Ajoute l'email dans la base
     public function addEmail(string $email): bool {
         // Pas besoin de spécifier l'ID s'il est en Auto-Incrément dans votre BDD
-        $sql = "INSERT INTO newsletter (email) VALUES (:email)";
+        $sql = "INSERT INTO abonne (email_abonne, date_abonne) VALUES (:email, NOW())";
         $stmt = $this->pdo->prepare($sql);
         return $stmt->execute(['email' => $email]);
     }

@@ -117,3 +117,34 @@
     height: auto;              
     border-radius: 50%;
 }
+
+/* --- Section Newsletter --- */
+.newsletter{
+    width: 100%;
+    margin: 40px auto; /* Centre la boîte et ajoute de l'espace au-dessus/en-dessous */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centre les éléments à l'intérieur */
+    text-align: center;
+}
+
+/* Cache le label visuellement tout en le laissant lisible pour les lecteurs d'écran (Accessibilité W3C) */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+/* Optionnel : Ajustement du formulaire pour qu'il soit bien aligné */
+form.newsletter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px; /* Espace entre le champ de saisie et le bouton */
+    flex-wrap: wrap; /* Permet de passer le bouton en dessous sur mobile */
+}
